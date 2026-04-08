@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { PadGrid } from '@/components/PadGrid'
 import { TransportControls } from '@/components/TransportControls'
 import { SavedLoops } from '@/components/SavedLoops'
@@ -18,10 +18,6 @@ function App() {
   const loopPlayer = useLoopPlayer()
   const storage = useLoopStorage()
   const [loopCount, setLoopCount] = useState(0)
-
-  useEffect(() => {
-    AudioEngine.init()
-  }, [])
 
   const handlePadHit = (id: PadId) => {
     AudioEngine.unlock()

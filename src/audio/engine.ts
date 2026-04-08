@@ -31,10 +31,10 @@ export const AudioEngine = {
     getContext()
   },
 
-  async unlock() {
+  unlock() {
     const ctx = getContext()
     if (ctx.state === 'suspended') {
-      await ctx.resume()
+      ctx.resume()
     }
   },
 

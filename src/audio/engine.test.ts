@@ -30,17 +30,17 @@ describe('AudioEngine', () => {
   })
 
   describe('unlock', () => {
-    it('resumes a suspended context', async () => {
+    it('resumes a suspended context', () => {
       AudioEngine.init()
       mockCtx.state = 'suspended'
-      await AudioEngine.unlock()
+      AudioEngine.unlock()
       expect(mockCtx.resume).toHaveBeenCalled()
     })
 
-    it('is a no-op when context is already running', async () => {
+    it('is a no-op when context is already running', () => {
       AudioEngine.init()
       mockCtx.state = 'running'
-      await AudioEngine.unlock()
+      AudioEngine.unlock()
       expect(mockCtx.resume).not.toHaveBeenCalled()
     })
   })
