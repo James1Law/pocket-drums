@@ -1,0 +1,6 @@
+export { synthesizeKick } from './kick'
+export { synthesizeSnare } from './snare'
+export { synthesizeHihat } from './hihat'
+export { synthesizeOpenHat } from './openhat'
+export { synthesizeTom } from './tom'
+export { synthesizeClap } from './clap'
