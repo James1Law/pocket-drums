@@ -72,6 +72,48 @@ describe('usePadLayout', () => {
     })
   })
 
+  describe('moveTo', () => {
+    it('moves item forward (0 -> 4): shifts items 1-4 left', () => {
+      const { result } = renderHook(() => usePadLayout())
+      const before = [...result.current.padOrder]
+      act(() => {
+        result.current.moveTo(0, 4)
+      })
+      expect(result.current.padOrder[4]).toBe(before[0])
+      expect(result.current.padOrder[0]).toBe(before[1])
+      expect(result.current.padOrder[3]).toBe(before[4])
+    })
+
+    it('moves item backward (4 -> 0): shifts items 0-3 right', () => {
+      const { result } = renderHook(() => usePadLayout())
+      const before = [...result.current.padOrder]
+      act(() => {
+        result.current.moveTo(4, 0)
+      })
+      expect(result.current.padOrder[0]).toBe(before[4])
+      expect(result.current.padOrder[1]).toBe(before[0])
+      expect(result.current.padOrder[4]).toBe(before[3])
+    })
+
+    it('is a no-op when indices are the same', () => {
+      const { result } = renderHook(() => usePadLayout())
+      const before = [...result.current.padOrder]
+      act(() => {
+        result.current.moveTo(2, 2)
+      })
+      expect(result.current.padOrder).toEqual(before)
+    })
+
+    it('persists to localStorage', () => {
+      const { result } = renderHook(() => usePadLayout())
+      act(() => {
+        result.current.moveTo(0, 3)
+      })
+      const stored = JSON.parse(localStorage.getItem(STORAGE_KEY)!)
+      expect(stored).toEqual(result.current.padOrder)
+    })
+  })
+
   describe('reset', () => {
     it('restores default pad order', () => {
       const { result } = renderHook(() => usePadLayout())

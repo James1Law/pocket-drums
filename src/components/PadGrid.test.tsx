@@ -7,7 +7,7 @@ const defaultProps = {
   padOrder: DEFAULT_PAD_ORDER,
   editMode: false,
   onPadHit: vi.fn(),
-  onSwap: vi.fn(),
+  onMoveTo: vi.fn(),
 }
 
 describe('PadGrid', () => {

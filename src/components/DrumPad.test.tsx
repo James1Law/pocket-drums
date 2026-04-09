@@ -15,7 +15,6 @@ const defaultProps = {
   editMode: false,
   index: 0,
   onHit: vi.fn(),
-  onSwap: vi.fn(),
 }
 
 describe('DrumPad', () => {
@@ -79,5 +78,24 @@ describe('DrumPad', () => {
     render(<DrumPad {...defaultProps} editMode={false} />)
     const pad = screen.getByText('KICK')
     expect(pad).not.toHaveClass('animate-jiggle')
+  })
+
+  it('calls onDragStart on pointer down in edit mode', () => {
+    const onDragStart = vi.fn()
+    render(<DrumPad {...defaultProps} editMode={true} onDragStart={onDragStart} />)
+    fireEvent.pointerDown(screen.getByText('KICK'))
+    expect(onDragStart).toHaveBeenCalled()
+  })
+
+  it('applies custom style prop', () => {
+    render(<DrumPad {...defaultProps} style={{ opacity: 0 }} />)
+    const pad = screen.getByText('KICK')
+    expect(pad.style.opacity).toBe('0')
+  })
+
+  it('forwards ref to the DOM element', () => {
+    const ref = { current: null as HTMLDivElement | null }
+    render(<DrumPad {...defaultProps} ref={ref} />)
+    expect(ref.current).toBeInstanceOf(HTMLDivElement)
   })
 })

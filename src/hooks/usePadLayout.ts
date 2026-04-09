@@ -40,10 +40,21 @@ export function usePadLayout() {
     })
   }, [])
 
+  const moveTo = useCallback((fromIndex: number, toIndex: number) => {
+    if (fromIndex === toIndex) return
+    setPadOrder((prev) => {
+      const next = [...prev]
+      const [item] = next.splice(fromIndex, 1)
+      next.splice(toIndex, 0, item)
+      persistOrder(next)
+      return next
+    })
+  }, [])
+
   const reset = useCallback(() => {
     setPadOrder(DEFAULT_PAD_ORDER)
     localStorage.removeItem(STORAGE_KEY)
   }, [])
 
-  return { padOrder, swap, reset }
+  return { padOrder, swap, moveTo, reset }
 }

@@ -7,7 +7,7 @@ import { usePadLayout } from '@/hooks/usePadLayout'
 import type { PadId } from '@/types/pad'
 
 function App() {
-  const { padOrder, swap, reset } = usePadLayout()
+  const { padOrder, moveTo, reset } = usePadLayout()
   const [editMode, setEditMode] = useState(false)
 
   const handlePadHit = useCallback(
@@ -56,7 +56,7 @@ function App() {
           padOrder={padOrder}
           editMode={editMode}
           onPadHit={handlePadHit}
-          onSwap={swap}
+          onMoveTo={moveTo}
         />
       </main>
     </div>
