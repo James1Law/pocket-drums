@@ -1,5 +1,6 @@
 import { useCallback, useState } from 'react'
 import { PadGrid } from '@/components/PadGrid'
+import { Typewriter } from '@/components/Typewriter'
 import { UnlockOverlay } from '@/components/UnlockOverlay'
 import { AudioEngine } from '@/audio/engine'
 import { useKeyboardPads } from '@/hooks/useKeyboardPads'
@@ -51,6 +52,7 @@ function App() {
           </button>
         </div>
       </header>
+      <Typewriter />
       <main className="flex flex-1 flex-col justify-center">
         <PadGrid
           padOrder={padOrder}

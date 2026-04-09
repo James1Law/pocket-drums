@@ -26,11 +26,11 @@ describe('synthesizeCowbell', () => {
     expect(osc2.type).toBe('square')
   })
 
-  it('creates a bandpass filter', () => {
+  it('creates a highpass filter for metallic brightness', () => {
     synthesizeCowbell(ctx as unknown as AudioContext)
     expect(ctx.createBiquadFilter).toHaveBeenCalled()
     const filter = ctx.createBiquadFilter.mock.results[0].value
-    expect(filter.type).toBe('bandpass')
+    expect(filter.type).toBe('highpass')
   })
 
   it('connects to destination', () => {
