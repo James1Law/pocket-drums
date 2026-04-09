@@ -10,28 +10,36 @@ const testPad: DrumPadConfig = {
   activeColor: 'bg-orange-400',
 }
 
+const defaultProps = {
+  pad: testPad,
+  editMode: false,
+  index: 0,
+  onHit: vi.fn(),
+  onSwap: vi.fn(),
+}
+
 describe('DrumPad', () => {
   it('renders the pad label', () => {
-    render(<DrumPad pad={testPad} onHit={vi.fn()} />)
+    render(<DrumPad {...defaultProps} />)
     expect(screen.getByText('KICK')).toBeInTheDocument()
   })
 
   it('calls onHit with pad id on pointer down', () => {
     const onHit = vi.fn()
-    render(<DrumPad pad={testPad} onHit={onHit} />)
+    render(<DrumPad {...defaultProps} onHit={onHit} />)
     fireEvent.pointerDown(screen.getByText('KICK'))
     expect(onHit).toHaveBeenCalledWith('kick')
   })
 
   it('adds active class on pointer down', () => {
-    render(<DrumPad pad={testPad} onHit={vi.fn()} />)
+    render(<DrumPad {...defaultProps} />)
     const pad = screen.getByText('KICK')
     fireEvent.pointerDown(pad)
     expect(pad).toHaveAttribute('data-active', 'true')
   })
 
   it('removes active class on pointer up', () => {
-    render(<DrumPad pad={testPad} onHit={vi.fn()} />)
+    render(<DrumPad {...defaultProps} />)
     const pad = screen.getByText('KICK')
     fireEvent.pointerDown(pad)
     fireEvent.pointerUp(pad)
@@ -39,7 +47,7 @@ describe('DrumPad', () => {
   })
 
   it('removes active class on pointer cancel', () => {
-    render(<DrumPad pad={testPad} onHit={vi.fn()} />)
+    render(<DrumPad {...defaultProps} />)
     const pad = screen.getByText('KICK')
     fireEvent.pointerDown(pad)
     fireEvent.pointerCancel(pad)
@@ -47,10 +55,29 @@ describe('DrumPad', () => {
   })
 
   it('removes active class on pointer leave', () => {
-    render(<DrumPad pad={testPad} onHit={vi.fn()} />)
+    render(<DrumPad {...defaultProps} />)
     const pad = screen.getByText('KICK')
     fireEvent.pointerDown(pad)
     fireEvent.pointerLeave(pad)
     expect(pad).toHaveAttribute('data-active', 'false')
+  })
+
+  it('does not call onHit in edit mode', () => {
+    const onHit = vi.fn()
+    render(<DrumPad {...defaultProps} editMode={true} onHit={onHit} />)
+    fireEvent.pointerDown(screen.getByText('KICK'))
+    expect(onHit).not.toHaveBeenCalled()
+  })
+
+  it('applies jiggle animation in edit mode', () => {
+    render(<DrumPad {...defaultProps} editMode={true} />)
+    const pad = screen.getByText('KICK')
+    expect(pad).toHaveClass('animate-jiggle')
+  })
+
+  it('does not apply jiggle animation outside edit mode', () => {
+    render(<DrumPad {...defaultProps} editMode={false} />)
+    const pad = screen.getByText('KICK')
+    expect(pad).not.toHaveClass('animate-jiggle')
   })
 })

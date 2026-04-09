@@ -6,6 +6,13 @@ import {
   synthesizeOpenHat,
   synthesizeTom,
   synthesizeClap,
+  synthesizeTom2,
+  synthesizeTom3,
+  synthesizeCowbell,
+  synthesizeRide,
+  synthesizeCrash,
+  synthesizeTambourine,
+  synthesizeRimshot,
 } from './synthesis'
 
 const synthesizers: Record<PadId, (ctx: AudioContext, when?: number) => void> = {
@@ -15,6 +22,13 @@ const synthesizers: Record<PadId, (ctx: AudioContext, when?: number) => void> = 
   openhat: synthesizeOpenHat,
   tom: synthesizeTom,
   clap: synthesizeClap,
+  tom2: synthesizeTom2,
+  tom3: synthesizeTom3,
+  cowbell: synthesizeCowbell,
+  ride: synthesizeRide,
+  crash: synthesizeCrash,
+  tambourine: synthesizeTambourine,
+  rimshot: synthesizeRimshot,
 }
 
 let context: AudioContext | null = null

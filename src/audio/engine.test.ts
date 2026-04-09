@@ -83,6 +83,50 @@ describe('AudioEngine', () => {
       expect(mockCtx.createGain).toHaveBeenCalled()
     })
 
+    it('creates audio nodes when playing tom2', () => {
+      AudioEngine.init()
+      AudioEngine.play('tom2')
+      expect(mockCtx.createOscillator).toHaveBeenCalled()
+    })
+
+    it('creates audio nodes when playing tom3', () => {
+      AudioEngine.init()
+      AudioEngine.play('tom3')
+      expect(mockCtx.createOscillator).toHaveBeenCalled()
+    })
+
+    it('creates audio nodes when playing cowbell', () => {
+      AudioEngine.init()
+      AudioEngine.play('cowbell')
+      expect(mockCtx.createOscillator).toHaveBeenCalledTimes(2)
+    })
+
+    it('creates audio nodes when playing ride', () => {
+      AudioEngine.init()
+      AudioEngine.play('ride')
+      expect(mockCtx.createBufferSource).toHaveBeenCalled()
+      expect(mockCtx.createOscillator).toHaveBeenCalled()
+    })
+
+    it('creates audio nodes when playing crash', () => {
+      AudioEngine.init()
+      AudioEngine.play('crash')
+      expect(mockCtx.createBufferSource).toHaveBeenCalled()
+    })
+
+    it('creates audio nodes when playing tambourine', () => {
+      AudioEngine.init()
+      AudioEngine.play('tambourine')
+      expect(mockCtx.createBufferSource.mock.calls.length).toBeGreaterThanOrEqual(3)
+    })
+
+    it('creates audio nodes when playing rimshot', () => {
+      AudioEngine.init()
+      AudioEngine.play('rimshot')
+      expect(mockCtx.createOscillator).toHaveBeenCalled()
+      expect(mockCtx.createBufferSource).toHaveBeenCalled()
+    })
+
     it('allows overlapping playback (creates new nodes each call)', () => {
       AudioEngine.init()
       AudioEngine.play('kick')
