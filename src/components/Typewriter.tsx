@@ -1,33 +1,33 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 const TEXT = "Captain Chris's Personal Drum Machine"
-const CHAR_DELAY = 60
-const STORAGE_KEY = 'pocket-drums-typewriter-done'
+const CHAR_DELAY = 55
+const START_DELAY = 400
 
 export function Typewriter() {
-  const [displayed, setDisplayed] = useState(() => {
-    if (localStorage.getItem(STORAGE_KEY)) return TEXT
-    return ''
-  })
-  const [done, setDone] = useState(() => !!localStorage.getItem(STORAGE_KEY))
+  const [charCount, setCharCount] = useState(0)
+  const timerRef = useRef<ReturnType<typeof setTimeout>>(null)
 
   useEffect(() => {
-    if (done) return
-    if (displayed.length >= TEXT.length) {
-      setDone(true)
-      localStorage.setItem(STORAGE_KEY, '1')
-      return
+    timerRef.current = setTimeout(
+      () => {
+        if (charCount < TEXT.length) {
+          setCharCount((c) => c + 1)
+        }
+      },
+      charCount === 0 ? START_DELAY : CHAR_DELAY,
+    )
+    return () => {
+      if (timerRef.current) clearTimeout(timerRef.current)
     }
-    const timer = setTimeout(() => {
-      setDisplayed(TEXT.slice(0, displayed.length + 1))
-    }, CHAR_DELAY)
-    return () => clearTimeout(timer)
-  }, [displayed, done])
+  }, [charCount])
+
+  const done = charCount >= TEXT.length
 
   return (
-    <p className="px-4 pt-2 pb-1 text-sm font-medium text-muted-foreground">
-      {displayed}
-      {!done && <span className="animate-blink">|</span>}
+    <p className="typewriter-text px-4 pt-2 pb-1 text-base font-bold tracking-wide">
+      {TEXT.slice(0, charCount)}
+      {!done && <span className="animate-blink ml-0.5">|</span>}
     </p>
   )
 }
